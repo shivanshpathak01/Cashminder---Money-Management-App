@@ -1,65 +1,111 @@
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
-import { FiBarChart2, FiDollarSign, FiPieChart, FiTarget } from 'react-icons/fi';
+import { FiBarChart2, FiDollarSign, FiPieChart, FiTarget, FiArrowRight, FiLogIn, FiUserPlus } from 'react-icons/fi';
+import { useTheme } from '@/context/ThemeContext';
+import ThemeToggle from '@/components/ui/ThemeToggle';
 
 export default function Home() {
+  const { theme } = useTheme();
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-white dark:from-gray-900 dark:via-gray-800 dark:to-black text-gray-900 dark:text-white transition-colors duration-200">
       {/* Hero Section */}
-      <header className="bg-white">
-        <div className="relative px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <nav className="relative flex items-center justify-between sm:h-10">
-            <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
-              <div className="flex items-center justify-between w-full md:w-auto">
-                <span className="text-2xl font-bold text-indigo-600">Cashminder</span>
+      <header className="relative min-h-screen flex flex-col">
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] dark:opacity-20"></div>
+        
+        {/* Fixed Navigation */}
+        <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors duration-200">
+          <div className="px-4 py-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-500 text-transparent bg-clip-text">Cashminder</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <ThemeToggle />
+                <Link href="/auth/login" className="flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800/50 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700/50 transition-all duration-300 backdrop-blur-sm border border-gray-200 dark:border-gray-700">
+                  <FiLogIn className="mr-1.5" />
+                  Log in
+                </Link>
+                <Link href="/auth/signup" className="flex items-center px-3 py-1.5 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 rounded-lg hover:from-blue-700 hover:to-purple-700 dark:hover:from-blue-600 dark:hover:to-purple-600 transition-all duration-300 transform hover:scale-105">
+                  <FiUserPlus className="mr-1.5" />
+                  Sign up
+                </Link>
               </div>
             </div>
-            <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
-              <Link href="/auth/login" className="font-medium text-indigo-600 hover:text-indigo-500">
-                Log in
-              </Link>
-              <Link href="/auth/signup" className="font-medium text-white bg-indigo-600 px-4 py-2 rounded-md hover:bg-indigo-500">
-                Sign up
-              </Link>
-            </div>
-          </nav>
+          </div>
         </div>
 
-        <div className="px-4 py-16 mx-auto max-w-7xl sm:px-6 lg:px-8 lg:py-24">
-          <div className="lg:grid lg:grid-cols-12 lg:gap-8">
-            <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
-              <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-                <span className="block">Take control of</span>
-                <span className="block text-indigo-600">your finances</span>
-              </h1>
-              <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                Cashminder helps you track expenses, manage budgets, and achieve your financial goals with ease.
-              </p>
-              <div className="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0">
-                <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                  <div className="rounded-md shadow">
-                    <Link href="/auth/signup" className="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
-                      Get started
-                    </Link>
-                  </div>
-                  <div className="mt-3 sm:mt-0 sm:ml-3">
-                    <Link href="/auth/login" className="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-indigo-700 bg-indigo-100 border border-transparent rounded-md hover:bg-indigo-200 md:py-4 md:text-lg md:px-10">
-                      Log in
-                    </Link>
-                  </div>
+        {/* Main Content with padding for fixed nav */}
+        <div className="pt-16 relative z-10 flex-1 flex items-center">
+          <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+              <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
+                <h1 className="text-5xl font-extrabold tracking-tight sm:text-6xl md:text-7xl">
+                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-500">
+                    Future of Finance
+                  </span>
+                  <span className="block mt-2 text-gray-900 dark:text-white">
+                    Starts Here
+                  </span>
+                </h1>
+                <p className="mt-6 text-xl text-gray-600 dark:text-gray-300 sm:mt-8">
+                  Experience the next generation of money management with AI-powered insights and real-time tracking.
+                </p>
+                <div className="mt-10 flex flex-col sm:flex-row gap-4">
+                  <Link href="/auth/signup" className="group inline-flex items-center justify-center px-8 py-3 text-lg font-medium rounded-full bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 hover:from-blue-700 hover:to-purple-700 dark:hover:from-blue-600 dark:hover:to-purple-600 transition-all duration-300 transform hover:scale-105">
+                    Get Started
+                    <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                  <Link href="/auth/login" className="inline-flex items-center justify-center px-8 py-3 text-lg font-medium rounded-full border border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 transition-colors">
+                    Learn More
+                  </Link>
                 </div>
               </div>
-            </div>
-            <div className="relative mt-12 sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
-              <div className="relative mx-auto w-full rounded-lg shadow-lg lg:max-w-md">
-                <div className="relative block w-full bg-white rounded-lg overflow-hidden">
-                  <Image
-                    src="/dashboard-preview.png"
-                    alt="Dashboard preview"
-                    width={500}
-                    height={300}
-                    className="w-full"
-                  />
+              <div className="mt-12 lg:mt-0 lg:col-span-6">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 rounded-2xl blur-2xl opacity-20"></div>
+                  <div className="relative bg-white/50 dark:bg-gray-900/50 backdrop-blur-xl rounded-2xl p-8 border border-gray-200 dark:border-gray-800">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-4">
+                        <div className="p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-gray-600 dark:text-gray-400">Total Balance</span>
+                            <FiDollarSign className="text-blue-600 dark:text-blue-400" />
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900 dark:text-white">$24,500.00</div>
+                          <div className="text-sm text-green-600 dark:text-green-400">+2.5% from last month</div>
+                        </div>
+                        <div className="p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-gray-600 dark:text-gray-400">Monthly Savings</span>
+                            <FiTarget className="text-purple-600 dark:text-purple-400" />
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900 dark:text-white">$1,200.00</div>
+                          <div className="text-sm text-green-600 dark:text-green-400">On track</div>
+                        </div>
+                      </div>
+                      <div className="space-y-4">
+                        <div className="p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-gray-600 dark:text-gray-400">Investments</span>
+                            <FiBarChart2 className="text-blue-600 dark:text-blue-400" />
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900 dark:text-white">$15,800.00</div>
+                          <div className="text-sm text-green-600 dark:text-green-400">+5.2% growth</div>
+                        </div>
+                        <div className="p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-gray-600 dark:text-gray-400">Budget Status</span>
+                            <FiPieChart className="text-purple-600 dark:text-purple-400" />
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900 dark:text-white">85%</div>
+                          <div className="text-sm text-green-600 dark:text-green-400">Within limits</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -68,81 +114,61 @@ export default function Home() {
       </header>
 
       {/* Features Section */}
-      <section className="py-12 bg-gray-50 sm:py-16 lg:py-20">
-        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <div className="lg:text-center">
-            <h2 className="text-base font-semibold tracking-wide text-indigo-600 uppercase">Features</h2>
-            <p className="mt-2 text-3xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-4xl">
-              Everything you need to manage your money
-            </p>
-            <p className="max-w-2xl mt-4 text-xl text-gray-500 lg:mx-auto">
-              Cashminder provides powerful tools to help you take control of your financial life.
+      <section className="relative py-20">
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] dark:opacity-20"></div>
+        <div className="relative z-10 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-base font-semibold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-500 uppercase">Features</h2>
+            <p className="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white sm:text-5xl">
+              Next-Gen Financial Tools
             </p>
           </div>
 
-          <div className="mt-10">
-            <div className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
-              <div className="flex">
-                <div className="flex items-center justify-center flex-shrink-0 w-12 h-12 rounded-md bg-indigo-500 text-white">
-                  <FiBarChart2 className="w-6 h-6" />
-                </div>
-                <div className="ml-4">
-                  <h3 className="text-lg font-medium leading-6 text-gray-900">Expense Tracking</h3>
-                  <p className="mt-2 text-base text-gray-500">
-                    Easily log and categorize your expenses to see where your money is going.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex">
-                <div className="flex items-center justify-center flex-shrink-0 w-12 h-12 rounded-md bg-indigo-500 text-white">
-                  <FiPieChart className="w-6 h-6" />
-                </div>
-                <div className="ml-4">
-                  <h3 className="text-lg font-medium leading-6 text-gray-900">Budget Planning</h3>
-                  <p className="mt-2 text-base text-gray-500">
-                    Create and manage budgets for different categories to stay on track with your spending.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex">
-                <div className="flex items-center justify-center flex-shrink-0 w-12 h-12 rounded-md bg-indigo-500 text-white">
-                  <FiTarget className="w-6 h-6" />
-                </div>
-                <div className="ml-4">
-                  <h3 className="text-lg font-medium leading-6 text-gray-900">Savings Goals</h3>
-                  <p className="mt-2 text-base text-gray-500">
-                    Set and track progress towards your financial goals, from emergency funds to big purchases.
-                  </p>
+          <div className="mt-20 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                icon: <FiBarChart2 className="w-8 h-8" />,
+                title: "Smart Analytics",
+                description: "AI-powered insights and predictive analytics for your financial future."
+              },
+              {
+                icon: <FiPieChart className="w-8 h-8" />,
+                title: "Dynamic Budgeting",
+                description: "Real-time budget tracking with intelligent categorization and alerts."
+              },
+              {
+                icon: <FiTarget className="w-8 h-8" />,
+                title: "Goal Tracking",
+                description: "Set and achieve financial goals with personalized recommendations."
+              },
+              {
+                icon: <FiDollarSign className="w-8 h-8" />,
+                title: "Wealth Insights",
+                description: "Comprehensive financial health scoring and improvement suggestions."
+              }
+            ].map((feature, index) => (
+              <div key={index} className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 rounded-xl blur opacity-20 group-hover:opacity-30 transition-opacity"></div>
+                <div className="relative p-6 bg-white/50 dark:bg-gray-900/50 backdrop-blur-xl rounded-xl border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors">
+                  <div className="text-blue-600 dark:text-blue-400 mb-4">{feature.icon}</div>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{feature.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-400">{feature.description}</p>
                 </div>
               </div>
-
-              <div className="flex">
-                <div className="flex items-center justify-center flex-shrink-0 w-12 h-12 rounded-md bg-indigo-500 text-white">
-                  <FiDollarSign className="w-6 h-6" />
-                </div>
-                <div className="ml-4">
-                  <h3 className="text-lg font-medium leading-6 text-gray-900">Financial Insights</h3>
-                  <p className="mt-2 text-base text-gray-500">
-                    Get visual reports and insights to understand your spending patterns and improve your habits.
-                  </p>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-white">
-        <div className="px-4 py-12 mx-auto max-w-7xl sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
-          <div className="flex justify-center space-x-6 md:order-2">
-            <span className="text-sm text-gray-500">Privacy Policy</span>
-            <span className="text-sm text-gray-500">Terms of Service</span>
-          </div>
-          <div className="mt-8 md:mt-0 md:order-1">
-            <p className="text-base text-center text-gray-400">&copy; 2025 Cashminder. All rights reserved.</p>
+      <footer className="relative z-10 border-t border-gray-200 dark:border-gray-800">
+        <div className="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <p className="text-gray-600 dark:text-gray-400">&copy; 2025 Cashminder. All rights reserved.</p>
+            <div className="flex space-x-6 mt-4 md:mt-0">
+              <Link href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Privacy</Link>
+              <Link href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Terms</Link>
+            </div>
           </div>
         </div>
       </footer>
