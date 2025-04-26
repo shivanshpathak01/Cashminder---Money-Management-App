@@ -8,6 +8,7 @@ type AuthMode = 'login' | 'signup';
 export default function AuthForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [mode, setMode] = useState<AuthMode>('login');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -24,62 +25,40 @@ export default function AuthForm() {
         throw new Error('Please enter a valid email and a password with at least 6 characters');
       }
 
-      // Mock authentication - in a real app, this would use Supabase or another auth provider
-      if (mode === 'signup') {
-        // Create a new user account
-        setTimeout(() => {
-          // Generate a unique user ID
-          const userId = `user_${Date.now()}`;
+      // Call our API route for authentication
+      const response = await fetch('/api/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password, // In a real app, you'd hash this password
+          name: name || email.split('@')[0], // Use part of email as name if not provided
+          mode,
+        }),
+      });
 
-          // Store user data in localStorage
-          localStorage.setItem('cashminder_user', JSON.stringify({
-            id: userId,
-            email,
-            isNewUser: true, // Flag to indicate this is a new user
-            createdAt: new Date().toISOString()
-          }));
-
-          // Initialize empty data for the new user
-          localStorage.setItem(`cashminder_transactions_${userId}`, JSON.stringify([]));
-          localStorage.setItem(`cashminder_categories_${userId}`, JSON.stringify([]));
-          localStorage.setItem(`cashminder_budgets_${userId}`, JSON.stringify([]));
-          localStorage.setItem(`cashminder_goals_${userId}`, JSON.stringify([]));
-
-          // Redirect to dashboard
-          router.push('/dashboard');
-          router.refresh();
-          setLoading(false);
-        }, 1000);
-      } else {
-        // Simulate login success
-        setTimeout(() => {
-          // Check if user exists (in a real app, this would be a server check)
-          const existingUsers = Object.keys(localStorage)
-            .filter(key => key.startsWith('cashminder_user'));
-
-          // If this is the first login, create a mock user
-          if (existingUsers.length === 0) {
-            const userId = `user_${Date.now()}`;
-            localStorage.setItem('cashminder_user', JSON.stringify({
-              id: userId,
-              email,
-              isNewUser: true,
-              createdAt: new Date().toISOString()
-            }));
-          } else {
-            // Just store the user info
-            localStorage.setItem('cashminder_user', JSON.stringify({
-              email,
-              isNewUser: false
-            }));
-          }
-
-          // Redirect to dashboard
-          router.push('/dashboard');
-          router.refresh();
-          setLoading(false);
-        }, 1000);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Authentication failed');
       }
+
+      const userData = await response.json();
+
+      // Store user data in localStorage for client-side access
+      localStorage.setItem('cashminder_user', JSON.stringify({
+        id: userData.id,
+        email: userData.email,
+        name: userData.name,
+        isNewUser: userData.isNewUser,
+        preferences: userData.preferences || { theme: 'light', currency: 'USD', language: 'en' }
+      }));
+
+      // Redirect to dashboard
+      router.push('/dashboard');
+      router.refresh();
+      setLoading(false);
     } catch (err: any) {
       setError(err.message || 'An error occurred during authentication');
       setLoading(false);
@@ -122,6 +101,24 @@ export default function AuthForm() {
               className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>
+
+          {mode === 'signup' && (
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                Your Name (optional)
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                autoComplete="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Enter your name"
+              />
+            </div>
+          )}
 
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">

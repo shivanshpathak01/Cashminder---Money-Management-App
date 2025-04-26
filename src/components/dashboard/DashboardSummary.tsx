@@ -58,7 +58,7 @@ export default function DashboardSummary({
       animate="visible"
     >
       <motion.div
-        className="overflow-hidden bg-white rounded-lg shadow hover:shadow-md transition-shadow duration-300"
+        className="overflow-hidden bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition-shadow duration-300"
         variants={itemVariants}
       >
         <div className="px-4 py-5 sm:p-6">
@@ -102,7 +102,7 @@ export default function DashboardSummary({
       </motion.div>
 
       <motion.div
-        className="overflow-hidden bg-white rounded-lg shadow hover:shadow-md transition-shadow duration-300"
+        className="overflow-hidden bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition-shadow duration-300"
         variants={itemVariants}
       >
         <div className="px-4 py-5 sm:p-6">
@@ -146,7 +146,7 @@ export default function DashboardSummary({
       </motion.div>
 
       <motion.div
-        className="overflow-hidden bg-white rounded-lg shadow hover:shadow-md transition-shadow duration-300"
+        className="overflow-hidden bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition-shadow duration-300"
         variants={itemVariants}
       >
         <div className="px-4 py-5 sm:p-6">

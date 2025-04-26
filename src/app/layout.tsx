@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import { createClient } from '@supabase/supabase-js';
-import Navbar from '@/components/layout/Navbar';
+import FuturisticNavbar from '@/components/layout/FuturisticNavbar';
 import ThemeWrapper from '@/components/ThemeWrapper';
 
-// Create a Supabase client for server components
-const createServerClient = () => {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-  return createClient(supabaseUrl, supabaseAnonKey);
-};
+// Add Inter font for a more modern look
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,14 +40,13 @@ export default function RootLayout({
         */}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-200`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} font-sans antialiased bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300`}
       >
         <ThemeWrapper>
           <div className="flex flex-col min-h-screen">
             <div className="flex-grow">
-              {/* Navbar will be client-side rendered */}
-              {/* @ts-expect-error Async Server Component */}
-              <Navbar />
+              {/* Futuristic Navbar */}
+              <FuturisticNavbar />
               <main className="py-10">
                 <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                   {children}
