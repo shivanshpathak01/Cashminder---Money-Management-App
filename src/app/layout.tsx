@@ -59,6 +59,19 @@ export default function RootLayout({
           We're removing the inline script to avoid hydration issues with browser extensions.
           Theme handling will be done entirely client-side in the ThemeProvider component.
         */}
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            // Block Sentry requests to prevent console errors
+            const originalFetch = window.fetch;
+            window.fetch = function(url, options) {
+              if (url && typeof url === 'string' && url.includes('sentry')) {
+                console.log('Blocked Sentry request:', url);
+                return Promise.resolve(new Response('', { status: 200 }));
+              }
+              return originalFetch.apply(this, arguments);
+            };
+          `
+        }} />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${orbitron.variable} ${rajdhani.variable} ${audiowide.variable} font-sans antialiased bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300`}

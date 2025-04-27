@@ -11,6 +11,7 @@ import { Category, Transaction } from '@/lib/types';
 import { generateRandomColor } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import { listenEvent } from '@/lib/eventBus';
 
 // Default categories for new users
 const defaultCategories: Category[] = [
@@ -41,84 +42,52 @@ export default function DashboardPage() {
   const fetchDashboardData = async (userId: string) => {
     try {
       setIsLoading(true);
+      console.log('Fetching dashboard data for user:', userId);
 
-      // Try to fetch from the real API first
-      try {
-        const response = await fetch(`/api/dashboard?userId=${userId}`);
+      // Load transactions from localStorage
+      const storedTransactions = localStorage.getItem(`cashminder_transactions_${userId}`);
+      let userTransactions: Transaction[] = [];
 
-        if (response.ok) {
-          const data = await response.json();
-
-          if (data.success) {
-            setDashboardData({
-              totalBalance: data.data.totalBalance,
-              income: data.data.income,
-              expenses: data.data.expenses,
-              savingsGoal: data.data.savingsGoal
-            });
-
-            // Set transactions from API response
-            if (data.data.recentTransactions && data.data.recentTransactions.length > 0) {
-              // Convert MongoDB transactions to our Transaction type
-              const formattedTransactions = data.data.recentTransactions.map((t: any) => ({
-                id: t._id || `temp-${Math.random().toString(36).substring(2, 9)}`,
-                user_id: t.userId,
-                amount: t.amount,
-                description: t.description,
-                category_id: t.category,
-                date: t.date,
-                is_income: t.type === 'income',
-                created_at: t.createdAt || t.date
-              }));
-
-              setTransactions(formattedTransactions);
-              setIsLoading(false);
-              return; // Successfully fetched data, exit the function
-            } else {
-              // No transactions yet
-              setTransactions([]);
-              setIsLoading(false);
-              return; // Successfully fetched data, exit the function
-            }
-          }
-        }
-
-        // If we get here, the main API call failed, so we'll try the mock API
-        throw new Error('Main API failed, trying mock API');
-
-      } catch (mainApiError) {
-        console.log('Falling back to mock API:', mainApiError);
-
-        // Try the mock API as fallback
-        const mockResponse = await fetch(`/api/mock-dashboard?userId=${userId}`);
-
-        if (mockResponse.ok) {
-          const mockData = await mockResponse.json();
-
-          if (mockData.success) {
-            setDashboardData({
-              totalBalance: mockData.data.totalBalance,
-              income: mockData.data.income,
-              expenses: mockData.data.expenses,
-              savingsGoal: mockData.data.savingsGoal
-            });
-
-            // Initialize with empty transactions for mock data
-            setTransactions([]);
-            console.log('Using mock dashboard data');
-          } else {
-            console.error('Failed to fetch mock dashboard data:', mockData.error);
-            setTransactions([]);
-          }
-        } else {
-          console.error('Failed to fetch from mock API');
-          setTransactions([]);
-        }
+      if (storedTransactions) {
+        userTransactions = JSON.parse(storedTransactions);
+        console.log('Loaded transactions from localStorage:', userTransactions.length);
+        setTransactions(userTransactions);
+      } else {
+        console.log('No transactions found in localStorage');
+        setTransactions([]);
       }
+
+      // Calculate dashboard data from transactions
+      const income = userTransactions
+        .filter(t => t.is_income)
+        .reduce((sum, t) => sum + t.amount, 0);
+
+      const expenses = userTransactions
+        .filter(t => !t.is_income)
+        .reduce((sum, t) => sum + t.amount, 0);
+
+      const totalBalance = income - expenses;
+
+      // Set dashboard data
+      setDashboardData({
+        totalBalance,
+        income,
+        expenses,
+        savingsGoal: 5000 // Default savings goal
+      });
+
+      console.log('Dashboard data calculated:', { totalBalance, income, expenses });
+
     } catch (error) {
       console.error('Error in dashboard data fetching process:', error);
       // Initialize with empty data
       setTransactions([]);
+      setDashboardData({
+        totalBalance: 0,
+        income: 0,
+        expenses: 0,
+        savingsGoal: 5000
+      });
     } finally {
       setIsLoading(false);
     }
@@ -157,6 +126,53 @@ export default function DashboardPage() {
       setTransactions([]);
     }
   }, [router]);
+
+  // Listen for transaction changes
+  useEffect(() => {
+    // Get user ID
+    const userJson = localStorage.getItem('cashminder_user');
+    if (!userJson) return;
+
+    const userData = JSON.parse(userJson);
+    const userId = userData.id || 'default';
+
+    // Set up event listeners for all transaction events
+    const removeCreatedListener = listenEvent('transaction_created', (data) => {
+      if (data.userId === userId) {
+        console.log('Dashboard detected new transaction:', data);
+        fetchDashboardData(userId);
+      }
+    });
+
+    const removeUpdatedListener = listenEvent('transaction_updated', (data) => {
+      if (data.userId === userId) {
+        console.log('Dashboard detected updated transaction:', data);
+        fetchDashboardData(userId);
+      }
+    });
+
+    const removeDeletedListener = listenEvent('transaction_deleted', (data) => {
+      if (data.userId === userId) {
+        console.log('Dashboard detected deleted transaction:', data);
+        fetchDashboardData(userId);
+      }
+    });
+
+    const removeChangedListener = listenEvent('transactions_changed', (data) => {
+      if (data.userId === userId) {
+        console.log('Dashboard detected transactions changed');
+        fetchDashboardData(userId);
+      }
+    });
+
+    // Clean up event listeners on unmount
+    return () => {
+      removeCreatedListener();
+      removeUpdatedListener();
+      removeDeletedListener();
+      removeChangedListener();
+    };
+  }, []);
 
   // Calculate summary data for current period (this month)
   const currentDate = new Date();
@@ -238,12 +254,12 @@ export default function DashboardPage() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-xl text-gray-500 dark:text-gray-300">
-          <svg className="animate-spin -ml-1 mr-3 h-8 w-8 text-indigo-500 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <div className="text-xl text-light-text-secondary dark:text-dark-text-secondary">
+          <svg className="animate-spin -ml-1 mr-3 h-8 w-8 text-primary inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          Loading...
+          Loading dashboard...
         </div>
       </div>
     );
@@ -275,16 +291,17 @@ export default function DashboardPage() {
 
   return (
     <motion.div
+      className="container mx-auto px-4 py-8 max-w-7xl"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
       <motion.div
-        className="pb-5 border-b border-gray-200 dark:border-gray-700"
+        className="pb-5 border-b border-light-border dark:border-dark-border mb-8"
         variants={itemVariants}
       >
-        <h1 className="text-3xl font-bold leading-tight text-gray-900 dark:text-white">Dashboard</h1>
-        <p className="mt-1 text-sm text-gray-500 dark:text-gray-200">
+        <h1 className="text-3xl font-bold leading-tight text-light-text-primary dark:text-dark-text-primary">Dashboard</h1>
+        <p className="mt-1 text-sm text-light-text-secondary dark:text-dark-text-secondary">
           {transactions.length > 0
             ? 'Welcome back! Here\'s an overview of your finances.'
             : 'Welcome to Cashminder! Start by adding transactions to see your financial overview.'}

@@ -58,122 +58,113 @@ export default function DashboardSummary({
       animate="visible"
     >
       <motion.div
-        className="overflow-hidden bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition-shadow duration-300"
+        className="p-6 rounded-xl border bg-light-surface dark:bg-dark-surface border-light-border dark:border-dark-border shadow-sm"
         variants={itemVariants}
+        whileHover={{ y: -5, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
       >
-        <div className="px-4 py-5 sm:p-6">
-          <div className="flex items-center">
-            <div className="flex items-center justify-center flex-shrink-0 w-12 h-12 bg-green-100 rounded-md">
-              <FiArrowUp className="w-6 h-6 text-green-600" />
-            </div>
-            <div className="ml-5 w-0 flex-1">
-              <dl>
-                <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Total Income</dt>
-                <dd>
-                  <div className="text-lg font-medium text-gray-900 dark:text-white">{formatCurrency(totalIncome)}</div>
-                  {previousIncome > 0 && (
-                    <div className="flex items-center mt-1">
-                      {incomeChange > 0 ? (
-                        <>
-                          <FiTrendingUp className="w-4 h-4 mr-1 text-green-500" />
-                          <span className="text-xs font-medium text-green-500">
-                            +{incomeChange.toFixed(1)}% from previous period
-                          </span>
-                        </>
-                      ) : incomeChange < 0 ? (
-                        <>
-                          <FiTrendingDown className="w-4 h-4 mr-1 text-red-500" />
-                          <span className="text-xs font-medium text-red-500">
-                            {incomeChange.toFixed(1)}% from previous period
-                          </span>
-                        </>
-                      ) : (
-                        <span className="text-xs font-medium text-gray-500">
-                          No change from previous period
-                        </span>
-                      )}
-                    </div>
-                  )}
-                </dd>
-              </dl>
-            </div>
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-medium text-light-text-secondary dark:text-dark-text-secondary">
+            Total Income
+          </h3>
+          <div className="p-2 rounded-full bg-success-light/10 dark:bg-success-dark/10">
+            <FiArrowUp className="text-success-light dark:text-success-dark" />
           </div>
         </div>
+        <div className="text-2xl font-bold mb-2 text-light-text-primary dark:text-dark-text-primary">
+          {formatCurrency(totalIncome)}
+        </div>
+        {previousIncome > 0 && (
+          <div className="flex items-center text-sm">
+            {incomeChange > 0 ? (
+              <>
+                <FiTrendingUp className="mr-1 text-success-light dark:text-success-dark" />
+                <span className="text-success-light dark:text-success-dark">
+                  +{incomeChange.toFixed(1)}% from previous period
+                </span>
+              </>
+            ) : incomeChange < 0 ? (
+              <>
+                <FiTrendingDown className="mr-1 text-error-light dark:text-error-dark" />
+                <span className="text-error-light dark:text-error-dark">
+                  {incomeChange.toFixed(1)}% from previous period
+                </span>
+              </>
+            ) : (
+              <span className="text-light-text-muted dark:text-dark-text-muted">
+                No change from previous period
+              </span>
+            )}
+          </div>
+        )}
       </motion.div>
 
       <motion.div
-        className="overflow-hidden bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition-shadow duration-300"
+        className="p-6 rounded-xl border bg-light-surface dark:bg-dark-surface border-light-border dark:border-dark-border shadow-sm"
         variants={itemVariants}
+        whileHover={{ y: -5, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
       >
-        <div className="px-4 py-5 sm:p-6">
-          <div className="flex items-center">
-            <div className="flex items-center justify-center flex-shrink-0 w-12 h-12 bg-red-100 rounded-md">
-              <FiArrowDown className="w-6 h-6 text-red-600" />
-            </div>
-            <div className="ml-5 w-0 flex-1">
-              <dl>
-                <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Total Expenses</dt>
-                <dd>
-                  <div className="text-lg font-medium text-gray-900 dark:text-white">{formatCurrency(totalExpenses)}</div>
-                  {previousExpenses > 0 && (
-                    <div className="flex items-center mt-1">
-                      {expenseChange > 0 ? (
-                        <>
-                          <FiTrendingUp className="w-4 h-4 mr-1 text-red-500" />
-                          <span className="text-xs font-medium text-red-500">
-                            +{expenseChange.toFixed(1)}% from previous period
-                          </span>
-                        </>
-                      ) : expenseChange < 0 ? (
-                        <>
-                          <FiTrendingDown className="w-4 h-4 mr-1 text-green-500" />
-                          <span className="text-xs font-medium text-green-500">
-                            {expenseChange.toFixed(1)}% from previous period
-                          </span>
-                        </>
-                      ) : (
-                        <span className="text-xs font-medium text-gray-500">
-                          No change from previous period
-                        </span>
-                      )}
-                    </div>
-                  )}
-                </dd>
-              </dl>
-            </div>
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-medium text-light-text-secondary dark:text-dark-text-secondary">
+            Total Expenses
+          </h3>
+          <div className="p-2 rounded-full bg-error-light/10 dark:bg-error-dark/10">
+            <FiArrowDown className="text-error-light dark:text-error-dark" />
           </div>
         </div>
+        <div className="text-2xl font-bold mb-2 text-light-text-primary dark:text-dark-text-primary">
+          {formatCurrency(totalExpenses)}
+        </div>
+        {previousExpenses > 0 && (
+          <div className="flex items-center text-sm">
+            {expenseChange > 0 ? (
+              <>
+                <FiTrendingUp className="mr-1 text-error-light dark:text-error-dark" />
+                <span className="text-error-light dark:text-error-dark">
+                  +{expenseChange.toFixed(1)}% from previous period
+                </span>
+              </>
+            ) : expenseChange < 0 ? (
+              <>
+                <FiTrendingDown className="mr-1 text-success-light dark:text-success-dark" />
+                <span className="text-success-light dark:text-success-dark">
+                  {expenseChange.toFixed(1)}% from previous period
+                </span>
+              </>
+            ) : (
+              <span className="text-light-text-muted dark:text-dark-text-muted">
+                No change from previous period
+              </span>
+            )}
+          </div>
+        )}
       </motion.div>
 
       <motion.div
-        className="overflow-hidden bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition-shadow duration-300"
+        className="p-6 rounded-xl border bg-light-surface dark:bg-dark-surface border-light-border dark:border-dark-border shadow-sm"
         variants={itemVariants}
+        whileHover={{ y: -5, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
       >
-        <div className="px-4 py-5 sm:p-6">
-          <div className="flex items-center">
-            <div className="flex items-center justify-center flex-shrink-0 w-12 h-12 bg-indigo-100 rounded-md">
-              <FiDollarSign className="w-6 h-6 text-indigo-600" />
-            </div>
-            <div className="ml-5 w-0 flex-1">
-              <dl>
-                <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Net Savings</dt>
-                <dd>
-                  <div className="text-lg font-medium text-gray-900 dark:text-white">{formatCurrency(netSavings)}</div>
-                  <div className="mt-1">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-gray-500 dark:text-gray-400">Savings Rate</span>
-                      <span className="font-medium text-indigo-600 dark:text-indigo-400">{savingsRate.toFixed(1)}%</span>
-                    </div>
-                    <div className="w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full mt-1">
-                      <div
-                        className="h-1.5 bg-indigo-600 dark:bg-indigo-500 rounded-full"
-                        style={{ width: `${Math.max(0, Math.min(100, savingsRate))}%` }}
-                      />
-                    </div>
-                  </div>
-                </dd>
-              </dl>
-            </div>
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-medium text-light-text-secondary dark:text-dark-text-secondary">
+            Net Savings
+          </h3>
+          <div className="p-2 rounded-full bg-primary/10">
+            <FiTrendingUp className="text-primary" />
+          </div>
+        </div>
+        <div className="text-2xl font-bold mb-2 text-light-text-primary dark:text-dark-text-primary">
+          {formatCurrency(netSavings)}
+        </div>
+        <div className="mt-1">
+          <div className="flex items-center justify-between text-sm mb-1">
+            <span className="text-light-text-secondary dark:text-dark-text-secondary">Savings Rate</span>
+            <span className="font-medium text-primary">{savingsRate.toFixed(1)}%</span>
+          </div>
+          <div className="w-full h-2 bg-light-accent dark:bg-dark-bg rounded-full">
+            <div
+              className="h-2 bg-blue-gradient rounded-full"
+              style={{ width: `${Math.max(0, Math.min(100, savingsRate))}%` }}
+            />
           </div>
         </div>
       </motion.div>

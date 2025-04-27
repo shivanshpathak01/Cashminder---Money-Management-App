@@ -188,20 +188,26 @@ export default function GoalsPage() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-xl text-gray-500">Loading...</div>
+        <div className="text-xl text-light-text-secondary dark:text-dark-text-secondary">
+          <svg className="animate-spin -ml-1 mr-3 h-8 w-8 text-primary inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Loading goals...
+        </div>
       </div>
     );
   }
 
   return (
-    <div>
-      <div className="pb-5 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
-        <h1 className="text-3xl font-bold leading-tight text-gray-900">Savings Goals</h1>
+    <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className="pb-5 border-b border-light-border dark:border-dark-border sm:flex sm:items-center sm:justify-between mb-8">
+        <h1 className="text-3xl font-bold leading-tight text-light-text-primary dark:text-dark-text-primary">Savings Goals</h1>
         <div className="mt-3 sm:mt-0 sm:ml-4">
           <button
             type="button"
             onClick={handleAddGoal}
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-dark-bg bg-primary hover:bg-primary-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
           >
             <FiPlus className="-ml-1 mr-2 h-5 w-5" />
             Add Goal
@@ -210,8 +216,8 @@ export default function GoalsPage() {
       </div>
 
       {showForm ? (
-        <div className="mt-5 bg-white p-6 rounded-lg shadow">
-          <h2 className="text-lg font-medium text-gray-900 mb-4">
+        <div className="p-6 rounded-xl border bg-light-surface dark:bg-dark-surface border-light-border dark:border-dark-border shadow-sm">
+          <h2 className="text-lg font-medium text-light-text-primary dark:text-dark-text-primary mb-4">
             {editingGoal ? 'Edit Savings Goal' : 'Add Savings Goal'}
           </h2>
           <GoalForm
@@ -224,7 +230,7 @@ export default function GoalsPage() {
           />
         </div>
       ) : (
-        <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {goals.length > 0 ? (
             goals.map((goal) => (
               <GoalCard
@@ -236,8 +242,12 @@ export default function GoalsPage() {
               />
             ))
           ) : (
-            <div className="col-span-full py-12 text-center text-gray-500">
-              <p>No savings goals found. Click "Add Goal" to create your first savings goal.</p>
+            <div className="col-span-full py-12 text-center">
+              <svg className="w-16 h-16 mx-auto mb-4 text-light-text-muted dark:text-dark-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="font-medium text-light-text-primary dark:text-dark-text-primary mb-2">No savings goals found</p>
+              <p className="text-light-text-secondary dark:text-dark-text-secondary">Click "Add Goal" to create your first savings goal.</p>
             </div>
           )}
         </div>

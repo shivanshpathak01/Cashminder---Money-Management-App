@@ -26,38 +26,38 @@ export default function GoalForm({
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!name.trim()) {
       newErrors.name = 'Goal name is required';
     }
-    
+
     if (!targetAmount || isNaN(Number(targetAmount)) || Number(targetAmount) <= 0) {
       newErrors.targetAmount = 'Please enter a valid target amount greater than 0';
     }
-    
+
     if (!currentAmount || isNaN(Number(currentAmount)) || Number(currentAmount) < 0) {
       newErrors.currentAmount = 'Please enter a valid current amount (0 or greater)';
     }
-    
+
     if (Number(currentAmount) > Number(targetAmount)) {
       newErrors.currentAmount = 'Current amount cannot be greater than target amount';
     }
-    
+
     if (targetDate && new Date(targetDate) <= new Date()) {
       newErrors.targetDate = 'Target date must be in the future';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     onSubmit({
       name,
       target_amount: Number(targetAmount),
@@ -69,7 +69,7 @@ export default function GoalForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="name" className="block text-sm font-medium text-light-text-primary dark:text-dark-text-primary">
           Goal Name
         </label>
         <div className="mt-1">
@@ -79,20 +79,20 @@ export default function GoalForm({
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="block w-full bg-light-accent dark:bg-dark-accent border-light-border dark:border-dark-border text-light-text-primary dark:text-dark-text-primary rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
             placeholder="e.g., Emergency Fund, New Car, Vacation"
           />
         </div>
-        {errors.name && <p className="mt-2 text-sm text-red-600">{errors.name}</p>}
+        {errors.name && <p className="mt-2 text-sm text-error-light dark:text-error-dark">{errors.name}</p>}
       </div>
 
       <div>
-        <label htmlFor="targetAmount" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="targetAmount" className="block text-sm font-medium text-light-text-primary dark:text-dark-text-primary">
           Target Amount
         </label>
         <div className="relative mt-1 rounded-md shadow-sm">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <span className="text-gray-500 sm:text-sm">$</span>
+            <span className="text-light-text-secondary dark:text-dark-text-secondary sm:text-sm">$</span>
           </div>
           <input
             type="number"
@@ -102,20 +102,20 @@ export default function GoalForm({
             min="0"
             value={targetAmount}
             onChange={(e) => setTargetAmount(e.target.value)}
-            className="block w-full pl-7 pr-12 border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="block w-full pl-7 pr-12 bg-light-accent dark:bg-dark-accent border-light-border dark:border-dark-border text-light-text-primary dark:text-dark-text-primary rounded-md focus:ring-primary focus:border-primary sm:text-sm"
             placeholder="0.00"
           />
         </div>
-        {errors.targetAmount && <p className="mt-2 text-sm text-red-600">{errors.targetAmount}</p>}
+        {errors.targetAmount && <p className="mt-2 text-sm text-error-light dark:text-error-dark">{errors.targetAmount}</p>}
       </div>
 
       <div>
-        <label htmlFor="currentAmount" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="currentAmount" className="block text-sm font-medium text-light-text-primary dark:text-dark-text-primary">
           Current Amount
         </label>
         <div className="relative mt-1 rounded-md shadow-sm">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <span className="text-gray-500 sm:text-sm">$</span>
+            <span className="text-light-text-secondary dark:text-dark-text-secondary sm:text-sm">$</span>
           </div>
           <input
             type="number"
@@ -125,15 +125,15 @@ export default function GoalForm({
             min="0"
             value={currentAmount}
             onChange={(e) => setCurrentAmount(e.target.value)}
-            className="block w-full pl-7 pr-12 border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="block w-full pl-7 pr-12 bg-light-accent dark:bg-dark-accent border-light-border dark:border-dark-border text-light-text-primary dark:text-dark-text-primary rounded-md focus:ring-primary focus:border-primary sm:text-sm"
             placeholder="0.00"
           />
         </div>
-        {errors.currentAmount && <p className="mt-2 text-sm text-red-600">{errors.currentAmount}</p>}
+        {errors.currentAmount && <p className="mt-2 text-sm text-error-light dark:text-error-dark">{errors.currentAmount}</p>}
       </div>
 
       <div>
-        <label htmlFor="targetDate" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="targetDate" className="block text-sm font-medium text-light-text-primary dark:text-dark-text-primary">
           Target Date (Optional)
         </label>
         <div className="mt-1">
@@ -143,23 +143,23 @@ export default function GoalForm({
             id="targetDate"
             value={targetDate}
             onChange={(e) => setTargetDate(e.target.value)}
-            className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="block w-full bg-light-accent dark:bg-dark-accent border-light-border dark:border-dark-border text-light-text-primary dark:text-dark-text-primary rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
           />
         </div>
-        {errors.targetDate && <p className="mt-2 text-sm text-red-600">{errors.targetDate}</p>}
+        {errors.targetDate && <p className="mt-2 text-sm text-error-light dark:text-error-dark">{errors.targetDate}</p>}
       </div>
 
       <div className="flex justify-end space-x-3">
         <button
           type="button"
           onClick={onCancel}
-          className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="px-4 py-2 text-sm font-medium text-light-text-primary dark:text-dark-text-primary bg-light-accent dark:bg-dark-accent border border-light-border dark:border-dark-border rounded-lg shadow-sm hover:bg-light-border dark:hover:bg-dark-border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
         >
           Cancel
         </button>
         <button
           type="submit"
-          className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="px-4 py-2 text-sm font-medium text-dark-bg bg-primary border border-transparent rounded-lg shadow-sm hover:bg-primary-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
         >
           Save
         </button>

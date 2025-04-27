@@ -5,7 +5,8 @@ import Link from "next/link";
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiBarChart2, FiDollarSign, FiPieChart, FiTarget,
-  FiArrowRight, FiShield, FiTrendingUp, FiZap
+  FiArrowRight, FiShield, FiTrendingUp, FiZap,
+  FiTwitter, FiGithub, FiLinkedin, FiMail, FiFileText
 } from 'react-icons/fi';
 import { useTheme } from '@/context/ThemeContext';
 
@@ -216,7 +217,7 @@ export default function Home() {
                 className="flex flex-col sm:flex-row gap-4 mt-8"
                 variants={itemVariants}
               >
-                <Link href="/auth">
+                <Link href={isLoggedIn ? "/dashboard" : "/auth"}>
                   <motion.button
                     className="group flex items-center justify-center px-8 py-4 text-lg font-medium rounded-xl text-dark-bg bg-primary hover:bg-primary-400 transition-all duration-300 shadow-md"
                     whileHover={{
@@ -225,7 +226,7 @@ export default function Home() {
                     }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    Get Started
+                    {isLoggedIn ? "Go to Dashboard" : "Get Started"}
                     <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                   </motion.button>
                 </Link>
@@ -452,7 +453,7 @@ export default function Home() {
               <span className="font-semibold text-primary"> reduce debt</span>, and
               <span className="font-semibold text-secondary"> secure</span> their financial future
             </p>
-            <Link href="/auth">
+            <Link href={isLoggedIn ? "/dashboard" : "/auth"}>
               <motion.button
                 className="group flex items-center justify-center px-8 py-4 text-lg font-medium rounded-xl text-dark-bg bg-secondary hover:bg-secondary-400 transition-all duration-300 mx-auto shadow-md"
                 whileHover={{
@@ -461,7 +462,7 @@ export default function Home() {
                 }}
                 whileTap={{ scale: 0.98 }}
               >
-                Get Started Now
+                {isLoggedIn ? "Go to Dashboard" : "Get Started Now"}
                 <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
               </motion.button>
             </Link>
@@ -470,30 +471,106 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="relative py-12 border-t border-light-border dark:border-dark-border">
+      <footer className="relative py-12 border-t border-light-border dark:border-dark-border bg-light-accent dark:bg-dark-accent">
         <div className="container mx-auto max-w-7xl px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center mb-4 md:mb-0">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center mr-2 shadow-md">
-                <span className="text-dark-bg font-bold text-xl">C</span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            {/* Logo and description */}
+            <div className="flex flex-col items-center md:items-start">
+              <Link href="/" className="flex items-center mb-4 hover:opacity-80 transition-opacity">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center mr-2 shadow-md">
+                  <span className="text-dark-bg font-bold text-xl">C</span>
+                </div>
+                <span className="font-audiowide text-xl text-light-text-primary dark:text-dark-text-primary">
+                  Cashminder
+                </span>
+              </Link>
+              <p className="text-light-text-secondary dark:text-dark-text-secondary text-center md:text-left mb-4">
+                Your intelligent financial companion for smarter money management and wealth building.
+              </p>
+              <div className="flex space-x-4 mt-2">
+                <Link href="https://twitter.com/I_m_shivansh" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors cursor-pointer">
+                    <FiTwitter className="text-primary" />
+                  </div>
+                </Link>
+                <Link href="https://github.com/shivanshpathak01" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors cursor-pointer">
+                    <FiGithub className="text-primary" />
+                  </div>
+                </Link>
+                <Link href="https://www.linkedin.com/in/shivansh-pathak-02a72121a/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors cursor-pointer">
+                    <FiLinkedin className="text-primary" />
+                  </div>
+                </Link>
               </div>
-              <span className="font-bold text-xl text-light-text-primary dark:text-dark-text-primary">
-                Cashminder
-              </span>
             </div>
-            <div className="flex space-x-6">
-              <Link href="#" className="text-light-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-primary transition-colors">
-                Privacy
-              </Link>
-              <Link href="#" className="text-light-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-primary transition-colors">
-                Terms
-              </Link>
-              <Link href="#" className="text-light-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-primary transition-colors">
-                Contact
-              </Link>
+
+            {/* Quick links */}
+            <div className="flex flex-col items-center md:items-start">
+              <h3 className="font-rajdhani font-bold text-xl mb-4 text-light-text-primary dark:text-dark-text-primary">
+                Quick Links
+              </h3>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="/dashboard" className="text-light-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-primary transition-colors flex items-center">
+                    <FiArrowRight className="mr-2 text-primary" size={14} />
+                    Dashboard
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/transactions" className="text-light-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-primary transition-colors flex items-center">
+                    <FiArrowRight className="mr-2 text-primary" size={14} />
+                    Transactions
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/analytics" className="text-light-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-primary transition-colors flex items-center">
+                    <FiArrowRight className="mr-2 text-primary" size={14} />
+                    Analytics
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/goals" className="text-light-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-primary transition-colors flex items-center">
+                    <FiArrowRight className="mr-2 text-primary" size={14} />
+                    Goals
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Legal and contact */}
+            <div className="flex flex-col items-center md:items-start">
+              <h3 className="font-rajdhani font-bold text-xl mb-4 text-light-text-primary dark:text-dark-text-primary">
+                Legal & Contact
+              </h3>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="/privacy" className="text-light-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-primary transition-colors flex items-center">
+                    <FiShield className="mr-2 text-primary" size={14} />
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/terms" className="text-light-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-primary transition-colors flex items-center">
+                    <FiFileText className="mr-2 text-primary" size={14} />
+                    Terms of Service
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/contact" className="text-light-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-primary transition-colors flex items-center">
+                    <FiMail className="mr-2 text-primary" size={14} />
+                    Contact the Developer
+                  </Link>
+                </li>
+              </ul>
             </div>
           </div>
-          <div className="mt-8 text-center">
+
+          <div className="pt-8 border-t border-light-border dark:border-dark-border text-center">
+            <p className="text-light-text-secondary dark:text-dark-text-secondary mb-2">
+              Made with <span className="text-red-500">❤️</span> by Shivansh Pathak
+            </p>
             <p className="text-light-text-muted dark:text-dark-text-muted">
               &copy; {new Date().getFullYear()} Cashminder. All rights reserved.
             </p>
