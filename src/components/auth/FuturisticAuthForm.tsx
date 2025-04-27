@@ -90,6 +90,9 @@ export default function FuturisticAuthForm() {
         token: data.token
       }));
 
+      // Dispatch custom event to notify other components about auth state change
+      window.dispatchEvent(new Event('auth_state_changed'));
+
       // Redirect to dashboard
       router.push('/dashboard');
     } catch (err: any) {

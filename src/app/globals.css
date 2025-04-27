@@ -1,8 +1,52 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Light mode variables */
+  --background: #F8FAFC;
+  --foreground: #1E293B;
+
+  /* Finance theme colors */
+  --primary: #00C6FF;
+  --primary-hover: #33CFFF;
+  --primary-active: #00A0CC;
+  --secondary: #32FF7E;
+  --secondary-hover: #4FFF9A;
+  --secondary-active: #00FF5E;
+
+  /* Light mode colors */
+  --light-bg: #F8FAFC;
+  --light-card: #FFFFFF;
+  --light-accent: #F1F5F9;
+  --light-border: #E2E8F0;
+  --light-text-primary: #1E293B;
+  --light-text-secondary: #475569;
+  --light-text-muted: #64748B;
+
+  /* Dark mode colors */
+  --dark-bg: #0A0F1A;
+  --dark-card: #1C1F26;
+  --dark-accent: #2C303A;
+  --dark-border: #3D3D3D;
+  --dark-text-primary: #F1F2F6;
+  --dark-text-secondary: #A4B0BE;
+  --dark-text-muted: #57606F;
+
+  /* Semantic colors */
+  --success: #00FFAB;
+  --warning: #FFC107;
+  --danger: #FF4D4D;
+  --info: #18DCFF;
+
+  /* Gradients */
+  --space-gradient: linear-gradient(to bottom, #0A0F1A, #1C1F26);
+  --blue-gradient: linear-gradient(135deg, #00C6FF, #0072FF);
+  --green-gradient: linear-gradient(135deg, #32FF7E, #00C6FF);
+
+  /* Shadows */
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --glow-primary: 0 0 15px rgba(0, 198, 255, 0.5);
+  --glow-secondary: 0 0 15px rgba(50, 255, 126, 0.5);
 }
 
 @theme inline {
@@ -10,17 +54,213 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-orbitron: var(--font-orbitron);
+  --font-rajdhani: var(--font-rajdhani);
+  --font-audiowide: var(--font-audiowide);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Custom font classes */
+.font-orbitron {
+  font-family: var(--font-orbitron);
+}
+
+.font-rajdhani {
+  font-family: var(--font-rajdhani);
+}
+
+.font-audiowide {
+  font-family: var(--font-audiowide);
+}
+
+.dark {
+  --background: var(--dark-bg);
+  --foreground: var(--dark-text-primary);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Improved text contrast for light mode */
+.dark .text-gray-200,
+.dark .text-gray-300,
+.dark .text-gray-400 {
+  color: var(--text-secondary);
+}
+
+/* Improved text contrast for dark mode */
+.text-gray-600,
+.text-gray-700,
+.text-gray-800 {
+  color: var(--text-secondary);
+}
+
+/* Ensure buttons have good contrast */
+button, a {
+  transition: all 0.2s ease;
+}
+
+/* Animation utilities */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Finance UI effects */
+.glass-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--card-shadow);
+}
+
+.dark .glass-card {
+  background: rgba(28, 31, 38, 0.3);
+  border: 1px solid rgba(61, 61, 61, 0.5);
+}
+
+/* Card styles */
+.finance-card {
+  border-radius: 0.75rem;
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+}
+
+.finance-card:hover {
+  box-shadow: var(--hover-shadow);
+  transform: translateY(-4px);
+}
+
+.dark .finance-card {
+  background: var(--dark-card);
+  border: 1px solid var(--dark-border);
+}
+
+/* Glow effects */
+.glow-primary {
+  box-shadow: var(--glow-primary);
+}
+
+.glow-secondary {
+  box-shadow: var(--glow-secondary);
+}
+
+/* Gradient animations */
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Finance-specific animations */
+.count-up {
+  counter-reset: count 0;
+  animation: count-up 2s forwards ease-out;
+}
+
+@keyframes count-up {
+  to {
+    counter-increment: count 100;
+    content: counter(count);
+  }
+}
+
+/* Hover effects */
+.hover-scale {
+  transition: transform 0.2s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* Pulse animation for notifications */
+.pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Floating animation */
+.floating {
+  animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Text effects for creative typography */
+.text-glow {
+  text-shadow: 0 0 10px rgba(0, 198, 255, 0.7), 0 0 20px rgba(0, 198, 255, 0.4);
+}
+
+.text-glow-green {
+  text-shadow: 0 0 10px rgba(50, 255, 126, 0.7), 0 0 20px rgba(50, 255, 126, 0.4);
+}
+
+.text-outline {
+  -webkit-text-stroke: 1px var(--primary);
+  text-stroke: 1px var(--primary);
+  color: transparent;
+}
+
+.text-gradient {
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.letter-spacing-wide {
+  letter-spacing: 0.1em;
+}
+
+.text-shadow-sm {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Animated text */
+.text-shimmer {
+  background: linear-gradient(
+    to right,
+    var(--primary) 0%,
+    var(--secondary) 30%,
+    var(--primary) 60%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: 200% center;
+  }
 }

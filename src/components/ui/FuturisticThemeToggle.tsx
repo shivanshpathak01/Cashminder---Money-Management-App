@@ -17,10 +17,10 @@ export default function FuturisticThemeToggle() {
   // Handle the toggle click
   const handleToggle = () => {
     if (isAnimating) return;
-    
+
     setIsAnimating(true);
     toggleTheme();
-    
+
     // Reset animation state after animation completes
     setTimeout(() => {
       setIsAnimating(false);
@@ -44,9 +44,9 @@ export default function FuturisticThemeToggle() {
       <motion.button
         onClick={handleToggle}
         className={`w-12 h-12 rounded-full relative overflow-hidden flex items-center justify-center ${
-          isDark 
-            ? 'bg-gradient-to-br from-gray-800 to-gray-900 shadow-inner shadow-blue-900/20' 
-            : 'bg-gradient-to-br from-blue-50 to-indigo-100 shadow-lg shadow-blue-200/50'
+          isDark
+            ? 'bg-dark-card border border-dark-border shadow-inner'
+            : 'bg-light-card border border-light-border shadow-md'
         } transition-all duration-300`}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -64,23 +64,23 @@ export default function FuturisticThemeToggle() {
             >
               {/* Moon with stars */}
               <div className="relative">
-                <motion.div 
+                <motion.div
                   className="w-6 h-6 rounded-full bg-gray-100"
-                  animate={{ 
-                    boxShadow: ["0 0 0px 0px rgba(255,255,255,0.8)", "0 0 20px 2px rgba(255,255,255,0.4)"],
+                  animate={{
+                    boxShadow: ["0 0 0px 0px rgba(255,255,255,0.5)", "0 0 10px 2px rgba(255,255,255,0.3)"],
                   }}
-                  transition={{ 
+                  transition={{
                     duration: 2,
                     repeat: Infinity,
                     repeatType: "reverse"
                   }}
                 />
-                <motion.div 
+                <motion.div
                   className="absolute w-1 h-1 rounded-full bg-blue-200 top-0 right-0"
                   animate={{ opacity: [0.5, 1, 0.5] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 />
-                <motion.div 
+                <motion.div
                   className="absolute w-1 h-1 rounded-full bg-blue-200 bottom-1 left-0"
                   animate={{ opacity: [0.7, 0.3, 0.7] }}
                   transition={{ duration: 2, repeat: Infinity }}
@@ -98,12 +98,12 @@ export default function FuturisticThemeToggle() {
             >
               {/* Sun with rays */}
               <div className="relative">
-                <motion.div 
+                <motion.div
                   className="w-6 h-6 rounded-full bg-yellow-400"
-                  animate={{ 
-                    boxShadow: ["0 0 0px 0px rgba(250,204,21,0.7)", "0 0 20px 5px rgba(250,204,21,0.5)"],
+                  animate={{
+                    boxShadow: ["0 0 0px 0px rgba(250,204,21,0.5)", "0 0 10px 2px rgba(250,204,21,0.3)"],
                   }}
-                  transition={{ 
+                  transition={{
                     duration: 2,
                     repeat: Infinity,
                     repeatType: "reverse"
@@ -122,12 +122,12 @@ export default function FuturisticThemeToggle() {
                       transformOrigin: '50% 0',
                       transform: `rotate(${i * 45}deg) translateY(-5px)`
                     }}
-                    animate={{ 
+                    animate={{
                       height: [2, 3, 2],
                       opacity: [0.8, 1, 0.8]
                     }}
-                    transition={{ 
-                      duration: 1.5, 
+                    transition={{
+                      duration: 1.5,
                       repeat: Infinity,
                       delay: i * 0.1
                     }}
@@ -138,7 +138,7 @@ export default function FuturisticThemeToggle() {
           )}
         </AnimatePresence>
       </motion.button>
-      
+
       {/* Animated background effect */}
       <AnimatePresence>
         {isAnimating && (
@@ -148,7 +148,7 @@ export default function FuturisticThemeToggle() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6 }}
             className={`absolute inset-0 rounded-full ${
-              isDark ? 'bg-blue-400' : 'bg-indigo-600'
+              isDark ? 'bg-primary' : 'bg-primary'
             }`}
             style={{ zIndex: -1 }}
           />

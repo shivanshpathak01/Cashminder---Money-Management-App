@@ -27,10 +27,33 @@ export default function FuturisticNavbar() {
 
   // Check if user is logged in
   useEffect(() => {
-    const userData = localStorage.getItem('cashminder_user');
-    if (userData) {
-      setUser(JSON.parse(userData));
-    }
+    // Function to check user authentication status
+    const checkAuth = () => {
+      const userData = localStorage.getItem('cashminder_user');
+      if (userData) {
+        setUser(JSON.parse(userData));
+      } else {
+        setUser(null);
+      }
+    };
+
+    // Check on initial load
+    checkAuth();
+
+    // Set up event listener for storage changes (for when user logs in/out in another tab)
+    window.addEventListener('storage', checkAuth);
+
+    // Set up custom event listener for auth changes within the same tab
+    window.addEventListener('auth_state_changed', checkAuth);
+
+    // Check auth status every 5 seconds to ensure UI is in sync
+    const interval = setInterval(checkAuth, 5000);
+
+    return () => {
+      window.removeEventListener('storage', checkAuth);
+      window.removeEventListener('auth_state_changed', checkAuth);
+      clearInterval(interval);
+    };
   }, []);
 
   // Handle scroll effect
@@ -43,8 +66,8 @@ export default function FuturisticNavbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Navigation items
-  const navItems: NavItem[] = [
+  // Navigation items based on authentication status
+  const authenticatedNavItems: NavItem[] = [
     { name: 'Dashboard', href: '/dashboard', icon: <FiHome className="w-5 h-5" /> },
     { name: 'Transactions', href: '/transactions', icon: <FiDollarSign className="w-5 h-5" /> },
     { name: 'Analytics', href: '/analytics', icon: <FiPieChart className="w-5 h-5" /> },
@@ -52,8 +75,26 @@ export default function FuturisticNavbar() {
     { name: 'Settings', href: '/settings', icon: <FiSettings className="w-5 h-5" /> },
   ];
 
+  const unauthenticatedNavItems: NavItem[] = [
+    { name: 'Home', href: '/', icon: <FiHome className="w-5 h-5" /> },
+    { name: 'Features', href: '/#features', icon: <FiPieChart className="w-5 h-5" /> },
+    { name: 'Pricing', href: '/pricing', icon: <FiDollarSign className="w-5 h-5" /> },
+  ];
+
+  // Use the appropriate navigation items based on authentication status
+  const navItems = user ? authenticatedNavItems : unauthenticatedNavItems;
+
   const handleLogout = () => {
+    // Remove user data from localStorage
     localStorage.removeItem('cashminder_user');
+
+    // Dispatch custom event to notify other components about auth state change
+    window.dispatchEvent(new Event('auth_state_changed'));
+
+    // Set user state to null
+    setUser(null);
+
+    // Redirect to home page
     window.location.href = '/';
   };
 
@@ -63,7 +104,7 @@ export default function FuturisticNavbar() {
       <motion.nav
         className={`fixed top-0 left-0 right-0 z-50 ${
           isScrolled
-            ? `${isDark ? 'bg-gray-900/90 backdrop-blur-md' : 'bg-white/90 backdrop-blur-md shadow-sm'}`
+            ? 'bg-light-bg/95 dark:bg-dark-bg/95 backdrop-blur-md border-b border-light-border dark:border-dark-border shadow-sm'
             : 'bg-transparent'
         } transition-all duration-300`}
         initial={{ y: -100 }}
@@ -76,25 +117,29 @@ export default function FuturisticNavbar() {
               {/* Logo */}
               <Link href="/" className="flex-shrink-0 flex items-center">
                 <motion.div
-                  className={`w-10 h-10 rounded-lg ${isDark ? 'bg-indigo-600' : 'bg-indigo-500'} flex items-center justify-center mr-2`}
+                  className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center mr-2 shadow-md"
                   whileHover={{ scale: 1.05, rotate: 5 }}
                   whileTap={{ scale: 0.95 }}
+                  animate={{
+                    boxShadow: [
+                      '0 0 0 rgba(0, 198, 255, 0.4)',
+                      '0 0 15px rgba(0, 198, 255, 0.6)',
+                      '0 0 0 rgba(0, 198, 255, 0.4)'
+                    ]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
                 >
                   <motion.span
-                    className="text-white font-bold text-xl"
+                    className="text-dark-bg font-bold text-xl"
                     animate={{
-                      textShadow: [
-                        '0 0 5px rgba(255,255,255,0.5)',
-                        '0 0 10px rgba(255,255,255,0.8)',
-                        '0 0 5px rgba(255,255,255,0.5)'
-                      ]
+                      scale: [1, 1.1, 1]
                     }}
                     transition={{ duration: 2, repeat: Infinity }}
                   >
                     C
                   </motion.span>
                 </motion.div>
-                <span className={`font-bold text-xl ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                <span className="font-bold text-xl text-light-text-primary dark:text-dark-text-primary">
                   Cashminder
                 </span>
               </Link>
@@ -109,19 +154,22 @@ export default function FuturisticNavbar() {
                       href={item.href}
                       className={`relative px-3 py-2 rounded-md text-sm font-medium flex items-center space-x-1 transition-all duration-200 ${
                         isActive
-                          ? `${isDark ? 'text-white bg-indigo-900/40' : 'text-indigo-700 bg-indigo-50'}`
-                          : `${isDark ? 'text-gray-300 hover:text-white hover:bg-gray-800' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'}`
+                          ? 'text-primary bg-primary/10 dark:bg-primary/20 border border-primary/20 dark:border-primary/30'
+                          : 'text-light-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-primary hover:bg-light-accent dark:hover:bg-dark-accent'
                       }`}
                     >
                       {item.icon}
                       <span>{item.name}</span>
                       {isActive && (
                         <motion.div
-                          className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-500"
+                          className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
                           layoutId="navbar-indicator"
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                          style={{
+                            boxShadow: '0 0 8px rgba(0, 198, 255, 0.6)'
+                          }}
                         />
                       )}
                     </Link>
@@ -137,28 +185,34 @@ export default function FuturisticNavbar() {
 
               {/* User Menu or Login Button */}
               {user ? (
-                <div className="relative">
+                <div className="relative flex items-center space-x-3">
+                  {/* User greeting - only visible on desktop */}
+                  <span className="hidden md:block text-sm font-medium text-light-text-secondary dark:text-dark-text-secondary">
+                    Hello, {user.name || 'User'}
+                  </span>
+
+                  {/* Logout button */}
                   <motion.button
-                    className={`flex items-center space-x-2 px-3 py-2 rounded-full ${
-                      isDark ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-100 hover:bg-gray-200'
-                    } transition-colors duration-200`}
-                    whileHover={{ scale: 1.05 }}
+                    className="flex items-center space-x-2 px-3 py-2 rounded-full bg-light-accent dark:bg-dark-accent border border-light-border dark:border-dark-border transition-all duration-200"
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: "var(--card-shadow)"
+                    }}
                     whileTap={{ scale: 0.95 }}
                     onClick={handleLogout}
                   >
-                    <FiLogOut className="w-5 h-5" />
-                    <span className="text-sm font-medium">Logout</span>
+                    <FiLogOut className="w-5 h-5 text-primary" />
+                    <span className="text-sm font-medium text-light-text-primary dark:text-dark-text-primary">Logout</span>
                   </motion.button>
                 </div>
               ) : (
                 <Link href="/auth">
                   <motion.button
-                    className={`flex items-center space-x-2 px-4 py-2 rounded-full ${
-                      isDark
-                        ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
-                        : 'bg-indigo-500 hover:bg-indigo-600 text-white'
-                    } transition-colors duration-200`}
-                    whileHover={{ scale: 1.05 }}
+                    className="flex items-center space-x-2 px-4 py-2 rounded-full bg-primary hover:bg-primary-400 text-dark-bg transition-all duration-200 shadow-md"
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: "var(--glow-primary)"
+                    }}
                     whileTap={{ scale: 0.95 }}
                   >
                     <FiUser className="w-5 h-5" />
@@ -172,8 +226,8 @@ export default function FuturisticNavbar() {
                 <motion.button
                   className={`inline-flex items-center justify-center p-2 rounded-md ${
                     isDark
-                      ? 'text-gray-200 hover:text-white hover:bg-gray-800'
-                      : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
+                      ? 'text-dark-text-secondary hover:text-dark-text-primary hover:bg-dark-surface'
+                      : 'text-light-text-secondary hover:text-light-text-primary hover:bg-light-border'
                   }`}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setIsOpen(!isOpen)}
@@ -194,7 +248,7 @@ export default function FuturisticNavbar() {
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              className={`md:hidden ${isDark ? 'bg-gray-900' : 'bg-white'}`}
+              className="md:hidden bg-light-card dark:bg-dark-card border-t border-light-border dark:border-dark-border shadow-lg glass-card"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
@@ -207,10 +261,10 @@ export default function FuturisticNavbar() {
                     <Link
                       key={item.name}
                       href={item.href}
-                      className={`block px-3 py-2 rounded-md text-base font-medium flex items-center space-x-3 ${
+                      className={`px-3 py-2 rounded-md text-base font-medium flex items-center space-x-3 ${
                         isActive
-                          ? `${isDark ? 'text-white bg-indigo-900' : 'text-indigo-700 bg-indigo-50'}`
-                          : `${isDark ? 'text-gray-300 hover:text-white hover:bg-gray-800' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'}`
+                          ? 'text-primary bg-primary/10 dark:bg-primary/20 border border-primary/20 dark:border-primary/30'
+                          : 'text-light-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-primary hover:bg-light-accent dark:hover:bg-dark-accent'
                       }`}
                       onClick={() => setIsOpen(false)}
                     >
