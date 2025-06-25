@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
       });
 
       // Set HTTP-only cookie with the token
-      cookies().set({
+      (await cookies()).set({
         name: 'auth_token',
         value: token,
         httpOnly: true,
@@ -154,7 +154,7 @@ export async function POST(req: NextRequest) {
       });
 
       // Set HTTP-only cookie with the token
-      await cookies().set({
+      (await cookies()).set({
         name: 'auth_token',
         value: token,
         httpOnly: true,
