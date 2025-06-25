@@ -83,7 +83,7 @@ export default function ExpenseChart({ categories }: ExpenseChartProps) {
         text: 'Expense Distribution',
         font: {
           size: 16,
-          weight: 'bold'
+          weight: 'bold' as const
         },
         padding: {
           bottom: 15
