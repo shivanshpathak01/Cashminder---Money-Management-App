@@ -1,46 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter, Orbitron, Rajdhani, Audiowide } from "next/font/google";
+// Using CSS imports for fonts instead of Next.js font optimization to avoid build hanging
 import "./globals.css";
 import FuturisticNavbar from '@/components/layout/FuturisticNavbar';
 import ThemeWrapper from '@/components/ThemeWrapper';
 
-// Add Inter font for a more modern look
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-// Add futuristic fonts for headings and special text
-const orbitron = Orbitron({
-  variable: "--font-orbitron",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const rajdhani = Rajdhani({
-  variable: "--font-rajdhani",
-  weight: ["300", "400", "500", "600", "700"],
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const audiowide = Audiowide({
-  variable: "--font-audiowide",
-  weight: ["400"],
-  subsets: ["latin"],
-  display: "swap",
-});
+// Fonts are now loaded via CSS imports in globals.css
 
 export const metadata: Metadata = {
   title: "Cashminder - Personal Finance Manager",
@@ -59,6 +23,13 @@ export default function RootLayout({
           We're removing the inline script to avoid hydration issues with browser extensions.
           Theme handling will be done entirely client-side in the ThemeProvider component.
         */}
+        <title>Cashminder - Smart Money Management</title>
+        <meta name="description" content="Take control of your finances with Cashminder's intelligent money management tools" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+
+{/* Fonts will be added after server is stable */}
+
         <script dangerouslySetInnerHTML={{
           __html: `
             // Block Sentry requests to prevent console errors
@@ -74,7 +45,7 @@ export default function RootLayout({
         }} />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${orbitron.variable} ${rajdhani.variable} ${audiowide.variable} font-sans antialiased bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300`}
+        className="font-inter antialiased bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300"
       >
         <ThemeWrapper>
           <div className="flex flex-col min-h-screen">
