@@ -73,7 +73,11 @@ export default function DashboardPage() {
         totalBalance,
         income,
         expenses,
-        savingsGoal: 5000 // Default savings goal
+        savingsGoal: {
+          current: 0,
+          target: 5000,
+          percentage: 0
+        }
       });
 
       console.log('Dashboard data calculated:', { totalBalance, income, expenses });
@@ -86,7 +90,11 @@ export default function DashboardPage() {
         totalBalance: 0,
         income: 0,
         expenses: 0,
-        savingsGoal: 5000
+        savingsGoal: {
+          current: 0,
+          target: 5000,
+          percentage: 0
+        }
       });
     } finally {
       setIsLoading(false);
@@ -325,14 +333,14 @@ export default function DashboardPage() {
       </motion.div>
 
       <motion.div
-        className="mt-5"
+        className="mt-8"
         variants={itemVariants}
       >
         <BudgetProgress budgets={budgets} />
       </motion.div>
 
       <motion.div
-        className="mt-5"
+        className="mt-8 mb-8"
         variants={itemVariants}
       >
         <TransactionsManager
