@@ -16,7 +16,7 @@ import {
   Legend,
   ChartOptions
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Chart } from 'react-chartjs-2';
 
 ChartJS.register(
   CategoryScale,
@@ -81,7 +81,7 @@ export default function IncomeExpenseChart({ transactions }: IncomeExpenseChartP
     ],
   };
 
-  const options: ChartOptions<'bar'> = {
+  const options: any = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
@@ -93,19 +93,19 @@ export default function IncomeExpenseChart({ transactions }: IncomeExpenseChartP
       y: {
         beginAtZero: true,
         ticks: {
-          callback: function(value) {
+          callback: function(value: any) {
             return formatCurrency(Math.abs(Number(value)));
           }
         },
         grid: {
-          borderDash: [2, 4],
+          borderDash: [2, 4] as [number, number],
         },
       },
       y1: {
         position: 'right',
         beginAtZero: true,
         ticks: {
-          callback: function(value) {
+          callback: function(value: any) {
             return formatCurrency(Number(value));
           }
         },
@@ -127,7 +127,7 @@ export default function IncomeExpenseChart({ transactions }: IncomeExpenseChartP
       },
       tooltip: {
         callbacks: {
-          label: function(context) {
+          label: function(context: any) {
             let label = context.dataset.label || '';
             let value = context.raw as number;
 
@@ -153,7 +153,7 @@ export default function IncomeExpenseChart({ transactions }: IncomeExpenseChartP
         text: 'Income vs. Expenses',
         font: {
           size: 16,
-          weight: 'bold'
+          weight: 'bold' as const
         },
         padding: {
           bottom: 15
@@ -194,7 +194,7 @@ export default function IncomeExpenseChart({ transactions }: IncomeExpenseChartP
 
       <div className="mt-4 h-72">
         {transactions.length > 0 ? (
-          <Bar data={data} options={options} />
+          <Chart type="bar" data={data} options={options} />
         ) : (
           <div className="flex flex-col items-center justify-center h-full text-light-text-secondary dark:text-dark-text-secondary">
             <svg className="w-16 h-16 mb-4 text-light-text-muted dark:text-dark-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">

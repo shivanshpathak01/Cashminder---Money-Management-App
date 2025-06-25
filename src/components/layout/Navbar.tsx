@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FiHome, FiDollarSign, FiPieChart, FiTarget, FiMenu, FiX, FiLogOut } from 'react-icons/fi';
-import ThemeToggle from '@/components/ui/ThemeToggle';
+import BasicThemeToggle from '@/components/ui/BasicThemeToggle';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -71,7 +71,7 @@ export default function Navbar() {
             </div>
           </div>
           <div className="hidden sm:ml-6 sm:flex sm:items-center space-x-4">
-            <ThemeToggle />
+            <BasicThemeToggle />
             <button
               onClick={handleSignOut}
               className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition-colors duration-200"
@@ -117,7 +117,7 @@ export default function Navbar() {
               </Link>
             ))}
             <div className="flex items-center justify-between px-4 py-2 border-t border-gray-200 dark:border-gray-700">
-              <ThemeToggle />
+              <BasicThemeToggle />
               <button
                 onClick={handleSignOut}
                 className="flex items-center py-2 pl-3 pr-4 text-base font-medium text-gray-600 dark:text-gray-300 border-l-4 border-transparent hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-300 hover:text-gray-800 dark:hover:text-gray-100 transition-colors duration-200"

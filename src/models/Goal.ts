@@ -34,7 +34,7 @@ const GoalSchema: Schema = new Schema({
 
 // Pre-save hook to calculate progress
 GoalSchema.pre('save', function(next) {
-  if (this.targetAmount && this.currentAmount !== undefined) {
+  if (typeof this.targetAmount === 'number' && typeof this.currentAmount === 'number') {
     this.progress = (this.currentAmount / this.targetAmount) * 100;
     this.isCompleted = this.currentAmount >= this.targetAmount;
   }

@@ -132,7 +132,7 @@ UserSchema.pre('save', async function(next) {
 
   try {
     // Hash the password with a salt factor of 10
-    this.password = await hashPassword(this.password);
+    this.password = await hashPassword(this.password as string);
     next();
   } catch (error) {
     next(error as Error);

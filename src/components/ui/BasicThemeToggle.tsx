@@ -5,7 +5,7 @@ import { FiMoon, FiSun } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
-export default function ThemeToggle() {
+export default function BasicThemeToggle() {
   const { theme, toggleTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);

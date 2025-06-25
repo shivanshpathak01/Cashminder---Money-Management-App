@@ -104,82 +104,87 @@ export default function TransactionsManager({ transactions, categories, onTransa
   };
 
   return (
-    <div className={`rounded-xl border ${
-      isDark ? 'bg-gray-900/50 border-gray-800' : 'bg-white/50 border-gray-200'
-    } backdrop-blur-sm overflow-hidden`}>
+    <div className={`rounded-xl border finance-card ${
+      isDark ? 'bg-dark-card border-dark-border' : 'bg-light-card border-light-border'
+    } backdrop-blur-sm overflow-hidden shadow-lg`}>
       <div className="p-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
           <div>
-            <h2 className={`text-xl font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-              Transactions
+            <h2 className={`text-xl font-rajdhani font-bold letter-spacing-wide ${
+              isDark ? 'text-dark-text-primary' : 'text-light-text-primary'
+            }`}>
+              TRANSACTIONS
             </h2>
-            <p className={`mt-1 text-sm ${isDark ? 'text-gray-200' : 'text-gray-600'}`}>
-              {transactions.length > 0 
-                ? `Showing ${filteredTransactions.length} of ${transactions.length} transactions` 
+            <p className={`mt-1 text-sm font-rajdhani ${
+              isDark ? 'text-dark-text-secondary' : 'text-light-text-secondary'
+            }`}>
+              {transactions.length > 0
+                ? `Showing ${filteredTransactions.length} of ${transactions.length} transactions`
                 : 'No transactions yet. Add your first one!'}
             </p>
           </div>
           
           <div className="flex mt-4 sm:mt-0 space-x-2">
-            <div className="flex rounded-lg overflow-hidden border border-gray-300 dark:border-gray-700">
+            <div className={`flex rounded-lg overflow-hidden border ${
+              isDark ? 'border-dark-border' : 'border-light-border'
+            }`}>
               <button
-                className={`px-3 py-1.5 text-sm ${
+                className={`px-3 py-1.5 text-sm font-rajdhani font-semibold transition-all duration-200 ${
                   filter === 'all'
                     ? isDark
-                      ? 'bg-gray-800 text-white'
-                      : 'bg-gray-100 text-gray-800'
+                      ? 'bg-primary/20 text-primary border-r border-primary/30'
+                      : 'bg-primary/10 text-primary border-r border-primary/20'
                     : isDark
-                    ? 'bg-transparent text-gray-300 hover:bg-gray-800'
-                    : 'bg-transparent text-gray-600 hover:bg-gray-50'
+                    ? 'bg-transparent text-dark-text-secondary hover:bg-dark-accent hover:text-dark-text-primary'
+                    : 'bg-transparent text-light-text-secondary hover:bg-light-accent hover:text-light-text-primary'
                 }`}
                 onClick={() => setFilter('all')}
               >
-                All
+                ALL
               </button>
               <button
-                className={`px-3 py-1.5 text-sm flex items-center ${
+                className={`px-3 py-1.5 text-sm font-rajdhani font-semibold flex items-center transition-all duration-200 ${
                   filter === 'income'
                     ? isDark
-                      ? 'bg-gray-800 text-green-400'
-                      : 'bg-gray-100 text-green-600'
+                      ? 'bg-success/20 text-success border-r border-success/30'
+                      : 'bg-success/10 text-success border-r border-success/20'
                     : isDark
-                    ? 'bg-transparent text-gray-300 hover:bg-gray-800'
-                    : 'bg-transparent text-gray-600 hover:bg-gray-50'
+                    ? 'bg-transparent text-dark-text-secondary hover:bg-dark-accent hover:text-dark-text-primary'
+                    : 'bg-transparent text-light-text-secondary hover:bg-light-accent hover:text-light-text-primary'
                 }`}
                 onClick={() => setFilter('income')}
               >
-                <FiArrowUp className={`mr-1 ${filter === 'income' ? 'text-green-500' : ''}`} />
-                Income
+                <FiArrowUp className={`mr-1 ${filter === 'income' ? 'text-success' : ''}`} />
+                INCOME
               </button>
               <button
-                className={`px-3 py-1.5 text-sm flex items-center ${
+                className={`px-3 py-1.5 text-sm font-rajdhani font-semibold flex items-center transition-all duration-200 ${
                   filter === 'expense'
                     ? isDark
-                      ? 'bg-gray-800 text-red-400'
-                      : 'bg-gray-100 text-red-600'
+                      ? 'bg-danger/20 text-danger'
+                      : 'bg-danger/10 text-danger'
                     : isDark
-                    ? 'bg-transparent text-gray-300 hover:bg-gray-800'
-                    : 'bg-transparent text-gray-600 hover:bg-gray-50'
+                    ? 'bg-transparent text-dark-text-secondary hover:bg-dark-accent hover:text-dark-text-primary'
+                    : 'bg-transparent text-light-text-secondary hover:bg-light-accent hover:text-light-text-primary'
                 }`}
                 onClick={() => setFilter('expense')}
               >
-                <FiArrowDown className={`mr-1 ${filter === 'expense' ? 'text-red-500' : ''}`} />
-                Expenses
+                <FiArrowDown className={`mr-1 ${filter === 'expense' ? 'text-danger' : ''}`} />
+                EXPENSES
               </button>
             </div>
             
             <motion.button
-              className={`flex items-center px-3 py-1.5 rounded-lg ${
-                isDark
-                  ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
-                  : 'bg-indigo-500 hover:bg-indigo-600 text-white'
-              }`}
-              whileHover={{ scale: 1.05 }}
+              className="flex items-center px-4 py-2 rounded-lg bg-primary hover:bg-primary-hover text-dark-bg font-rajdhani font-semibold letter-spacing-wide transition-all duration-200 shadow-md"
+              whileHover={{
+                scale: 1.05,
+                boxShadow: "var(--glow-primary)"
+              }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setShowAddForm(true)}
             >
-              <FiPlus className="mr-1" />
-              <span className="text-sm">Add</span>
+              <FiPlus className="mr-2" />
+              <span className="text-sm">ADD</span>
             </motion.button>
           </div>
         </div>

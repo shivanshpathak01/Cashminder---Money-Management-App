@@ -36,7 +36,7 @@ const BudgetSchema: Schema = new Schema({
 
 // Pre-save hook to calculate remaining budget
 BudgetSchema.pre('save', function(next) {
-  if (this.amount && this.spent !== undefined) {
+  if (typeof this.amount === 'number' && typeof this.spent === 'number') {
     this.remaining = this.amount - this.spent;
   }
   next();

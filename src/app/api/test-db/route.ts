@@ -4,12 +4,12 @@ import connectToDatabase from '@/lib/mongodb';
 export async function GET(req: NextRequest) {
   try {
     // Test the database connection
-    const mongoose = await connectToDatabase();
-    
-    return NextResponse.json({ 
-      status: 'success', 
+    const connection = await connectToDatabase();
+
+    return NextResponse.json({
+      status: 'success',
       message: 'Connected to MongoDB successfully',
-      dbName: mongoose.connection.db.databaseName
+      dbName: connection?.connection?.db?.databaseName || 'Unknown'
     });
   } catch (error) {
     console.error('Database connection error:', error);

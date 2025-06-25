@@ -89,15 +89,16 @@ export default function AddTransactionForm({ categories, onAddTransaction, onClo
 
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-[9999] flex items-start justify-center p-4 bg-black/50 backdrop-blur-sm overflow-y-auto"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={onClose}
+      style={{ paddingTop: '100px', paddingBottom: '40px' }} // Account for navbar height and bottom spacing
     >
       <motion.div
-        className={`w-full max-w-md p-6 rounded-xl shadow-xl ${
-          isDark ? 'bg-gray-900 border border-gray-800' : 'bg-white'
+        className={`w-full max-w-lg mx-auto p-6 rounded-xl shadow-xl finance-card ${
+          isDark ? 'bg-dark-card border border-dark-border' : 'bg-light-card border border-light-border'
         }`}
         initial={{ scale: 0.9, y: 20, opacity: 0 }}
         animate={{ scale: 1, y: 0, opacity: 1 }}
@@ -106,8 +107,10 @@ export default function AddTransactionForm({ categories, onAddTransaction, onClo
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-6">
-          <h2 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-            Add New Transaction
+          <h2 className={`text-xl font-rajdhani font-bold letter-spacing-wide ${
+            isDark ? 'text-dark-text-primary' : 'text-light-text-primary'
+          }`}>
+            ADD NEW TRANSACTION
           </h2>
           <motion.button
             className={`p-1 rounded-full ${isDark ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}

@@ -8,6 +8,14 @@ if (!MONGODB_URI) {
   );
 }
 
+// Declare global type for mongoose caching
+declare global {
+  var mongoose: {
+    conn: any;
+    promise: Promise<any> | null;
+  };
+}
+
 /**
  * Global is used here to maintain a cached connection across hot reloads
  * in development. This prevents connections growing exponentially

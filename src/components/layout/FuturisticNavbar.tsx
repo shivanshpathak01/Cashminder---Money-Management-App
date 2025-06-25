@@ -111,6 +111,19 @@ export default function FuturisticNavbar() {
         animate={{ y: 0 }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
       >
+        {/* Animated top border */}
+        <motion.div
+          className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent"
+          animate={{
+            opacity: [0.3, 0.8, 0.3],
+            scaleX: [0.8, 1.2, 0.8]
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
@@ -139,8 +152,8 @@ export default function FuturisticNavbar() {
                     C
                   </motion.span>
                 </motion.div>
-                <span className="font-bold text-xl text-light-text-primary dark:text-dark-text-primary">
-                  Cashminder
+                <span className="font-audiowide text-xl text-light-text-primary dark:text-dark-text-primary letter-spacing-wide">
+                  CASHMINDER
                 </span>
               </Link>
 
@@ -152,14 +165,14 @@ export default function FuturisticNavbar() {
                     <Link
                       key={item.name}
                       href={item.href}
-                      className={`relative px-3 py-2 rounded-md text-sm font-medium flex items-center space-x-1 transition-all duration-200 ${
+                      className={`relative px-3 py-2 rounded-md text-sm font-rajdhani font-semibold flex items-center space-x-1 transition-all duration-200 ${
                         isActive
                           ? 'text-primary bg-primary/10 dark:bg-primary/20 border border-primary/20 dark:border-primary/30'
                           : 'text-light-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-primary hover:bg-light-accent dark:hover:bg-dark-accent'
                       }`}
                     >
                       {item.icon}
-                      <span>{item.name}</span>
+                      <span className="letter-spacing-wide">{item.name.toUpperCase()}</span>
                       {isActive && (
                         <motion.div
                           className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
@@ -187,8 +200,8 @@ export default function FuturisticNavbar() {
               {user ? (
                 <div className="relative flex items-center space-x-3">
                   {/* User greeting - only visible on desktop */}
-                  <span className="hidden md:block text-sm font-medium text-light-text-secondary dark:text-dark-text-secondary">
-                    Hello, {user.name || 'User'}
+                  <span className="hidden md:block text-sm font-rajdhani font-medium text-light-text-secondary dark:text-dark-text-secondary letter-spacing-wide">
+                    HELLO, {(user.name || 'USER').toUpperCase()}
                   </span>
 
                   {/* Logout button */}
@@ -202,7 +215,7 @@ export default function FuturisticNavbar() {
                     onClick={handleLogout}
                   >
                     <FiLogOut className="w-5 h-5 text-primary" />
-                    <span className="text-sm font-medium text-light-text-primary dark:text-dark-text-primary">Logout</span>
+                    <span className="text-sm font-rajdhani font-semibold text-light-text-primary dark:text-dark-text-primary letter-spacing-wide">LOGOUT</span>
                   </motion.button>
                 </div>
               ) : (
@@ -216,7 +229,7 @@ export default function FuturisticNavbar() {
                     whileTap={{ scale: 0.95 }}
                   >
                     <FiUser className="w-5 h-5" />
-                    <span className="text-sm font-medium">Login</span>
+                    <span className="text-sm font-rajdhani font-semibold letter-spacing-wide">LOGIN</span>
                   </motion.button>
                 </Link>
               )}
@@ -261,7 +274,7 @@ export default function FuturisticNavbar() {
                     <Link
                       key={item.name}
                       href={item.href}
-                      className={`px-3 py-2 rounded-md text-base font-medium flex items-center space-x-3 ${
+                      className={`px-3 py-2 rounded-md text-base font-rajdhani font-semibold flex items-center space-x-3 ${
                         isActive
                           ? 'text-primary bg-primary/10 dark:bg-primary/20 border border-primary/20 dark:border-primary/30'
                           : 'text-light-text-secondary dark:text-dark-text-secondary hover:text-primary dark:hover:text-primary hover:bg-light-accent dark:hover:bg-dark-accent'
@@ -269,7 +282,7 @@ export default function FuturisticNavbar() {
                       onClick={() => setIsOpen(false)}
                     >
                       {item.icon}
-                      <span>{item.name}</span>
+                      <span className="letter-spacing-wide">{item.name.toUpperCase()}</span>
                     </Link>
                   );
                 })}
