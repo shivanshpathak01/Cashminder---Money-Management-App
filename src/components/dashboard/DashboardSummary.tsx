@@ -58,19 +58,22 @@ export default function DashboardSummary({
       animate="visible"
     >
       <motion.div
-        className="p-6 rounded-xl border bg-light-surface dark:bg-dark-surface border-light-border dark:border-dark-border shadow-sm"
+        className="p-6 rounded-xl border bg-light-surface dark:bg-dark-surface border-light-border dark:border-dark-border shadow-sm finance-card"
         variants={itemVariants}
-        whileHover={{ y: -5, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
+        whileHover={{
+          y: -5,
+          boxShadow: "0 10px 25px -3px rgba(50, 255, 126, 0.1), 0 4px 6px -2px rgba(50, 255, 126, 0.05)"
+        }}
       >
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-medium text-light-text-secondary dark:text-dark-text-secondary">
-            Total Income
+          <h3 className="text-lg font-rajdhani font-semibold text-light-text-secondary dark:text-dark-text-secondary letter-spacing-wide">
+            TOTAL INCOME
           </h3>
           <div className="p-2 rounded-full bg-success-light/10 dark:bg-success-dark/10">
             <FiArrowUp className="text-success-light dark:text-success-dark" />
           </div>
         </div>
-        <div className="text-2xl font-bold mb-2 text-light-text-primary dark:text-dark-text-primary">
+        <div className="text-2xl font-orbitron font-bold mb-2 text-light-text-primary dark:text-dark-text-primary letter-spacing-wide">
           {formatCurrency(totalIncome)}
         </div>
         {previousIncome > 0 && (
@@ -99,19 +102,22 @@ export default function DashboardSummary({
       </motion.div>
 
       <motion.div
-        className="p-6 rounded-xl border bg-light-surface dark:bg-dark-surface border-light-border dark:border-dark-border shadow-sm"
+        className="p-6 rounded-xl border bg-light-surface dark:bg-dark-surface border-light-border dark:border-dark-border shadow-sm finance-card"
         variants={itemVariants}
-        whileHover={{ y: -5, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
+        whileHover={{
+          y: -5,
+          boxShadow: "0 10px 25px -3px rgba(255, 77, 77, 0.1), 0 4px 6px -2px rgba(255, 77, 77, 0.05)"
+        }}
       >
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-medium text-light-text-secondary dark:text-dark-text-secondary">
-            Total Expenses
+          <h3 className="text-lg font-rajdhani font-semibold text-light-text-secondary dark:text-dark-text-secondary letter-spacing-wide">
+            TOTAL EXPENSES
           </h3>
           <div className="p-2 rounded-full bg-error-light/10 dark:bg-error-dark/10">
             <FiArrowDown className="text-error-light dark:text-error-dark" />
           </div>
         </div>
-        <div className="text-2xl font-bold mb-2 text-light-text-primary dark:text-dark-text-primary">
+        <div className="text-2xl font-orbitron font-bold mb-2 text-light-text-primary dark:text-dark-text-primary letter-spacing-wide">
           {formatCurrency(totalExpenses)}
         </div>
         {previousExpenses > 0 && (
@@ -140,19 +146,22 @@ export default function DashboardSummary({
       </motion.div>
 
       <motion.div
-        className="p-6 rounded-xl border bg-light-surface dark:bg-dark-surface border-light-border dark:border-dark-border shadow-sm"
+        className="p-6 rounded-xl border bg-light-surface dark:bg-dark-surface border-light-border dark:border-dark-border shadow-sm finance-card"
         variants={itemVariants}
-        whileHover={{ y: -5, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
+        whileHover={{
+          y: -5,
+          boxShadow: "var(--glow-primary)"
+        }}
       >
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-medium text-light-text-secondary dark:text-dark-text-secondary">
-            Net Savings
+          <h3 className="text-lg font-rajdhani font-semibold text-light-text-secondary dark:text-dark-text-secondary letter-spacing-wide">
+            NET SAVINGS
           </h3>
           <div className="p-2 rounded-full bg-primary/10">
             <FiTrendingUp className="text-primary" />
           </div>
         </div>
-        <div className="text-2xl font-bold mb-2 text-light-text-primary dark:text-dark-text-primary">
+        <div className="text-2xl font-orbitron font-bold mb-2 text-light-text-primary dark:text-dark-text-primary letter-spacing-wide">
           {formatCurrency(netSavings)}
         </div>
         <div className="mt-1">
